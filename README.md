@@ -128,3 +128,28 @@ Registra automáticamente en una hoja de cálculo las unidades vendidas por prod
 
 ### Salida
 Inserta una fila por producto vendido en la hoja `HISTÓRICO VENTAS`.
+## Función: generarInformeFinancieroDesdeFacturacion
+
+Genera un informe financiero en PDF basado en los datos de facturación y ventas de un único día. Compara las unidades vendidas con el coste por producto, calcula los márgenes, gastos generales e IVA. El informe se guarda automáticamente en Google Drive como archivo PDF.
+
+### Fuentes de datos
+- `HISTÓRICO FACTURACIÓN`: contiene la facturación diaria (efectivo, tarjeta, gastos, EBITA).
+- `HISTÓRICO VENTAS`: contiene los productos vendidos por día.
+- `BASE DATOS PRECIOS`: contiene el coste unitario de cada producto.
+
+### Proceso
+1. Se toma la última fila de facturación como la referencia.
+2. Se filtran las ventas correspondientes a esa misma fecha.
+3. Se cruzan los productos vendidos con su coste unitario.
+4. Se calcula:
+   - Gasto total en productos
+   - IVA aplicado (21%)
+   - Gastos generales (seguridad + música)
+   - Margen bruto y margen neto
+   - Producto más vendido
+5. Se genera un documento en Google Docs con tablas detalladas y resumen financiero.
+6. Se convierte el documento en PDF y se guarda en Google Drive.
+7. Se elimina el documento original tras exportar el PDF.
+
+### Salida
+PDF con informe financiero completo y datos por producto.
