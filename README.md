@@ -1,95 +1,64 @@
-# AutomatizacionFinancieraSemanalGAS
-# Automatización Financiera Semanal
+# Sistema de Automatización Financiera con Google Apps Script
 
-Este proyecto automatiza la recopilación y análisis de datos de facturación y ventas de un negocio que opera dos días a la semana. El sistema genera un informe financiero semanal en PDF utilizando datos extraídos de varias hojas de cálculo de Google Sheets.
+Este proyecto implementa un sistema completo de automatización financiera semanal para un negocio que opera ciertos días de la semana (por ejemplo, viernes y sábado). Utilizando Google Apps Script, Google Sheets y Google Drive, automatiza el registro de ventas y facturación diaria, calcula márgenes financieros, gastos e impuestos, y genera informes consolidados en formato PDF que se almacenan automáticamente en una carpeta designada de Google Drive.
 
----
-
-## Funcionalidades
-
-- Registro automatizado de facturación y ventas por día.
-- Comparación de ventas por producto con su coste unitario.
-- Cálculo de márgenes, gastos, IVA y EBITA.
-- Generación de un informe financiero semanal en PDF.
-- Almacenamiento automático del informe en Google Drive.
+El objetivo principal es reducir la carga administrativa y mejorar la precisión del seguimiento financiero, todo sin necesidad de herramientas externas ni software de pago.
 
 ---
 
-## Estructura de hojas de cálculo
+## Funcionalidades clave
 
-### `HISTÓRICO FACTURACIÓN`
-Contiene:
-- Fecha de facturación
-- Total facturado (efectivo, tarjeta)
-- Gastos por día (seguridad, música)
-- EBITA diario
-
-### `HISTÓRICO VENTAS`
-Contiene:
-- Una fila por producto vendido y fecha
-- Producto, cantidad, fecha
-
-### `BASE DATOS PRECIOS`
-Contiene:
-- Nombre del producto (en mayúsculas)
-- Coste unitario
+- Registro automático de ventas por producto
+- Registro de facturación diaria diferenciando efectivo y tarjeta
+- Cálculo de:
+  - Gastos por productos
+  - IVA sobre productos (21%)
+  - Gastos fijos diarios
+  - Margen bruto y neto
+  - Comparativa con EBITA registrado
+- Generación de informes diarios y semanales en PDF
+- Almacenamiento automático en Google Drive
 
 ---
 
-## Contenido del informe semanal
+## Estructura del repositorio
 
-- Fechas analizadas (viernes y sábado)
-- Producto más vendido
-- Tabla por producto con:
-  - Cantidad total vendida
-  - Costo unitario
-  - Gasto total en productos
+Este repositorio contiene:
 
-### Resumen financiero
-
-| Concepto                     | Descripción                                      |
-|-----------------------------|--------------------------------------------------|
-| Facturado por día           | Totales individuales por jornada                |
-| Gastos por día              | Seguridad y música, detallados por jornada      |
-| Gasto en productos          | Suma total del coste de productos vendidos      |
-| IVA aplicado (21%)          | Sobre el total de productos                     |
-| Gasto total estimado        | Productos + IVA + otros gastos                  |
-| Margen bruto                | Facturado - coste de productos                  |
-| Margen neto                 | Facturado - gastos totales                      |
-| EBITA registrado            | Según datos del registro de facturación        |
+- Scripts de Google Apps Script (`.gs`)
+- Documentación de cada función
+- Instrucciones de integración
+- (Opcional) Plantillas de hojas de cálculo si se desea replicar el entorno
 
 ---
 
-## Cómo funciona
+## Funciones disponibles
+A continuación se listan todas las funciones del sistema con su descripción, parámetros de entrada y comportamiento esperado.
 
-El script principal:
-1. Toma las dos últimas fechas registradas en `HISTÓRICO FACTURACIÓN`
-2. Filtra las ventas correspondientes en `HISTÓRICO VENTAS`
-3. Cruza los productos con sus precios desde `BASE DATOS PRECIOS`
-4. Calcula los totales y genera el informe
-5. Exporta un archivo PDF y lo guarda automáticamente en Google Drive
+## Función: generarInformeViernes
 
----
+Esta función genera un informe detallado de ventas para el día viernes. Utiliza los datos de pedidos, stock de barra y almacén, y calcula la cantidad de productos vendidos. El resultado se estructura en una hoja de cálculo temporal, se convierte en PDF, y se guarda automáticamente en una carpeta de Google Drive. Además, el informe se envía por correo y las ventas se registran en una base de datos histórica.
 
-## Requisitos
+### Fuentes de datos
+- `RAW PEDIDOS`: contiene el pedido más reciente de productos.
+- `RAW BARRA`: contiene el stock de productos en barra.
+- `RAW ALMACÉN`: contiene el stock de productos en almacén.
 
-- Proyecto de Google Apps Script vinculado a un documento de Google Sheets.
-- Las hojas de cálculo mencionadas correctamente configuradas.
-- Acceso a Google Drive para almacenamiento de archivos.
+### Proceso
+1. Se detecta la última fila de `RAW PEDIDOS` como el pedido actual.
+2. Se calcula el stock inicial y final de barra y almacén, para el viernes.
+3. Se genera una nueva hoja con el informe de ventas del viernes, incluyendo:
+   - Producto
+   - Stock inicial
+   - Pedido
+   - Stock final (barra y almacén)
+   - Unidades vendidas
+4. El informe se exporta como PDF.
+5. El archivo se guarda en una carpeta de Drive.
+6. Se registra la venta en una hoja histórica mediante `registrarVentasEnHistorico`.
+7. Se elimina la hoja temporal de informe.
 
----
-
-## Mejoras futuras sugeridas
-
-- Envío automático del informe PDF por correo electrónico.
-- Generación de gráficos y dashboards con Google Charts.
-- Análisis mensual y alertas automáticas.
-- Registro histórico de informes semanales en una hoja separada.
-
----
-
-## Licencia
-
-Este proyecto está pensado para uso educativo y de automatización interna. Puede modificarse y adaptarse libremente para otros contextos.
-
+### Funciones auxiliares
+- `obtenerFilasPorTipoDia(tipo)`: determina las filas de stock según el día (viernes o sábado).
+- `guardarInformeEnCarpeta(blob, folderLink)`: guarda un archivo en una carpeta de Google Drive.
 
