@@ -27,7 +27,6 @@ Este repositorio contiene:
 
 - Scripts de Google Apps Script (`.gs`)
 - Documentación detallada de cada función
-- Instrucciones de integración
 - (Opcional) Plantillas de hojas de cálculo para replicar el entorno
 
 ---
