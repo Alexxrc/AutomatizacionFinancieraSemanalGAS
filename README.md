@@ -62,3 +62,25 @@ Esta función genera un informe detallado de ventas para el día viernes. Utiliz
 - `obtenerFilasPorTipoDia(tipo)`: determina las filas de stock según el día (viernes o sábado).
 - `guardarInformeEnCarpeta(blob, folderLink)`: guarda un archivo en una carpeta de Google Drive.
 
+## Función: generarInformeSabado
+
+Esta función automatiza la generación de un informe de ventas para el sábado. Utiliza los datos de stock registrados en `RAW BARRA` y `RAW ALMACÉN` para calcular el total de unidades vendidas por producto. El informe se presenta en una hoja temporal, exportada como PDF, guardada en Google Drive y enviada por correo. Las ventas se registran en una base de datos histórica.
+
+### Fuentes de datos
+- `RAW BARRA`: stock en barra antes y después del servicio.
+- `RAW ALMACÉN`: stock en almacén antes y después del servicio.
+- `RAW PEDIDOS`: contiene los encabezados con la lista de productos.
+
+### Proceso
+1. Obtiene las filas correspondientes al stock del sábado.
+2. Calcula la diferencia entre stock inicial y final.
+3. Genera una hoja con los datos consolidados (producto, stock, vendidos).
+4. Exporta la hoja como PDF.
+5. Guarda el archivo en una carpeta de Drive.
+6. Envía el informe por correo electrónico.
+7. Registra las ventas con la función `registrarVentasEnHistorico`.
+8. Elimina la hoja temporal del informe.
+
+### Funciones auxiliares utilizadas
+- `obtenerFilasPorTipoDia(tipo)`: identifica las filas de stock según el día.
+- `guardarInformeEnCarpeta(blob, folderLink)`: guarda el informe generado en una carpeta de Drive.
