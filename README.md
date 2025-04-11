@@ -153,3 +153,31 @@ Genera un informe financiero en PDF basado en los datos de facturación y ventas
 
 ### Salida
 PDF con informe financiero completo y datos por producto.
+## Función: generarInformeFinancieroDesdeFacturacion
+
+Esta función genera un informe financiero semanal basado en los dos últimos registros de la hoja de facturación (habitualmente correspondientes a viernes y sábado). El informe incluye desglose por producto, cálculo de gastos, IVA, márgenes financieros y se exporta como archivo PDF a Google Drive.
+
+### Fuentes de datos utilizadas
+- `HISTÓRICO FACTURACIÓN`: contiene totales facturados y gastos por día.
+- `HISTÓRICO VENTAS`: lista de productos vendidos por día, cantidad y fecha.
+- `BASE DATOS PRECIOS`: precios de coste unitario por producto.
+
+### Proceso
+1. Extrae las dos últimas filas de `HISTÓRICO FACTURACIÓN`.
+2. Suma los importes facturados y los gastos por separado para viernes y sábado.
+3. Filtra las ventas que correspondan a esas dos fechas.
+4. Cruza los productos vendidos con sus precios unitarios.
+5. Calcula:
+   - Gasto total en productos
+   - IVA (21%) sobre el gasto en productos
+   - Gastos generales
+   - Margen bruto (facturado - productos)
+   - Margen neto (facturado - todos los gastos)
+6. Identifica el producto más vendido.
+7. Genera un documento PDF con resumen detallado y lo guarda en una carpeta de Drive.
+
+### Salida
+- Un archivo PDF con:
+  - Detalle por producto (cantidad, coste, gasto total)
+  - Tabla financiera separando gastos por día
+  - Márgenes estimados y totales
