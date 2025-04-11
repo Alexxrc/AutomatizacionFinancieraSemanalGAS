@@ -84,3 +84,26 @@ Esta función automatiza la generación de un informe de ventas para el sábado.
 ### Funciones auxiliares utilizadas
 - `obtenerFilasPorTipoDia(tipo)`: identifica las filas de stock según el día.
 - `guardarInformeEnCarpeta(blob, folderLink)`: guarda el informe generado en una carpeta de Drive.
+
+## Función: generarAnalisisSemanal
+
+Esta función genera un informe de análisis de inventario y ventas semanales. Calcula los productos vendidos durante la semana utilizando datos de stock inicial, pedidos realizados y stock final. El informe se genera en una hoja temporal, se convierte en PDF y se envía por correo electrónico.
+
+### Fuentes de datos
+- `RAW PEDIDOS`: contiene los pedidos semanales realizados.
+- `RAW BARRA` y `RAW ALMACÉN`: contienen los niveles de stock al inicio y al final de la semana.
+
+### Proceso
+1. Obtiene los datos de las dos últimas filas de stock para calcular stock inicial y final.
+2. Calcula por producto:
+   - Stock inicial (barra + almacén)
+   - Pedido realizado
+   - Stock final (barra + almacén)
+   - Unidades vendidas estimadas
+3. Genera una hoja con el resumen semanal.
+4. Exporta la hoja como PDF.
+5. Envía el informe por correo electrónico.
+6. Elimina la hoja temporal del análisis.
+
+### Formato del informe
+El título incluye la semana, el mes y el año en que se genera el análisis. Los datos se presentan en una tabla con totales por producto.
