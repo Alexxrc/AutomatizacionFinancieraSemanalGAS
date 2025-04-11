@@ -107,3 +107,24 @@ Esta función genera un informe de análisis de inventario y ventas semanales. C
 
 ### Formato del informe
 El título incluye la semana, el mes y el año en que se genera el análisis. Los datos se presentan en una tabla con totales por producto.
+
+## Función: registrarVentasEnHistorico
+
+Registra automáticamente en una hoja de cálculo las unidades vendidas por producto en una fecha determinada. La función ajusta la fecha real de venta restando un día a la fecha proporcionada, ya que los registros se hacen normalmente al día siguiente de la jornada operativa.
+
+### Proceso
+1. Si no existe la hoja `HISTÓRICO VENTAS`, se crea con su encabezado.
+2. A la fecha proporcionada se le resta un día para reflejar la venta real.
+3. Se calcula:
+   - Día de la semana (nombre)
+   - Año
+   - Semana del mes
+   - Mes (en texto)
+4. Se formatean los datos y se añaden al final de la hoja.
+
+### Entrada
+- `datos`: array de objetos con las propiedades `{ producto, vendidos }`
+- `fecha`: fecha de referencia (día posterior al real)
+
+### Salida
+Inserta una fila por producto vendido en la hoja `HISTÓRICO VENTAS`.
